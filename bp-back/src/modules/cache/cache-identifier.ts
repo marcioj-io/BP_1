@@ -1,0 +1,3 @@
+export enum CACHE_IDENTIFIER {
+  'CACHE_TEST_KEY' = 'CACHE_TEST_KEY',
+}

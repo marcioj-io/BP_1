@@ -1,0 +1,17 @@
+import { PrismaClient, StatusEnum } from '@prisma/client';
+
+/**
+ * Reverts module_pc to their initial state by updating their data in the database.
+ *
+ * @param {PrismaClient} prisma - The PrismaClient instance.
+ * @param {string} module_lcId - The id of the module_pc to revert.
+ */
+export const revertmodule_pcToInitialState = async (
+  prisma: PrismaClient,
+  module_lcId: string,
+) => {
+  await prisma.module_cc.update({
+    where: { id: module_lcId },
+    data: { deletedAt: null, status: StatusEnum.ACTIVE, version: 1 },
+  });
+};

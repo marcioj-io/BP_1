@@ -1,0 +1,50 @@
+{
+    "serviceName": "NOME_DO_SERVICO_CONTAINER",
+    "containers": {
+      "NOME_DO_CONTAINER": {
+        "image": "IMAGEM_DO_CONTAINER",
+        "environment": {
+          "NODE_ENV": "AMBIENTE_NODE",
+          "LOG_LEVEL": "NIVEL_LOG",
+          "APP_PORT": "PORTA_APLICACAO",
+          "DATABASE_URL": "URL_BANCO_DADOS",
+          "SENDGRID_API_KEY": "CHAVE_API_SENDGRID",
+          "AT_SECRET": "SEGREDO_AT",
+          "RT_SECRET": "SEGREDO_RT",
+          "TK_EMAIL_SECRET": "EMAIL_SECRET_TK",
+          "TK_EMAIL_LIFETIME": "EMAIL_TK_TEMPODEVIDA",
+          "FRONT_END_URL": "ENDERECO_FRONTEND",
+          "ENV": "AMBIENTE",
+          "GOOGLE_API_URL": "URL_API_GOOGLE",
+          "GOOGLE_API_KEY": "CHAVE_API_GOOGLE",
+          "MONGODB_URI": "URI_MONGODB",
+          "MULTIPLE_LOGIN": "LOGIN_MULTIPLO",
+          "DEACTIVATE_REQUIRED_IPS_IN_REQUEST": "DESATIVAR_IPS_REQUERIDOS",
+          "JWT_ACCESS_LIFETIME": "TEMPO_VIDA_ACESSO_JWT",
+          "JWT_REFRESH_LIFETIME": "TEMPO_VIDA_REFRESH_JWT",
+          "EMAIL_OPTIONS_FROM": "EMAIL_ORIGEM",
+          "FRONTEND_RECOVER_PASSWORD_URL": "URL_RECUPERACAO_SENHA_FRONTEND",
+          "AWS_IDENTITY_POOL_ID": "ID_POOL_IDENTIDADE_AWS",
+          "AWS_BUCKET_REGION": "REGIAO_BUCKET_AWS",
+          "AWS_PUBLIC_BUCKET_NAME": "NOME_BUCKET_PUBLICO_AWS",
+          "AWS_ACCESS_KEY_ID": "ID_CHAVE_ACESSO_AWS",
+          "AWS_SECRET_ACCESS_KEY": "SEGREDO_CHAVE_ACESSO_AWS"
+        },
+        "ports": {
+          "80": "HTTP"
+        }
+      }
+    },
+    "publicEndpoint": {
+      "containerName": "NOME_DO_CONTAINER",
+      "containerPort": 80,
+      "healthCheck": {
+        "healthyThreshold": 2,
+        "unhealthyThreshold": 2,
+        "timeoutSeconds": 2,
+        "intervalSeconds": 5,
+        "path": "/api/health"
+      }
+    }
+  }
+  

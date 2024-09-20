@@ -1,0 +1,21 @@
+import { Prisma } from '@prisma/client';
+
+import { CrudTypeMap } from '../../base/interfaces/ICrudTypeMap';
+
+export class module_pcTypeMap implements CrudTypeMap {
+  aggregate: Prisma.module_pcAggregateArgs;
+  count: Prisma.module_pcCountArgs;
+  create: Prisma.module_pcCreateInput;
+  createUnchecked:Prisma.module_pcUncheckedCreateInput
+  delete: Prisma.module_pcDeleteArgs;
+  deleteMany: Prisma.module_pcDeleteManyArgs;
+  findFirst: Prisma.module_pcFindFirstArgs;
+  findMany: Prisma.module_pcFindManyArgs;
+  findUnique: Prisma.module_pcFindUniqueArgs;
+  update: Prisma.module_pcUpdateInput;
+  updateMany: Prisma.module_pcUpdateManyArgs;
+  upsert: Prisma.module_pcUpsertArgs;
+  where: Prisma.module_pcWhereInput;
+  select: Prisma.module_pcSelect;
+  orderBy: Prisma.module_pcOrderByWithRelationInput;
+}

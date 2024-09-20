@@ -1,0 +1,27 @@
+import { createMap, forMember, mapFrom, Mapper } from '@automapper/core';
+import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
+import { Injectable } from '@nestjs/common';
+
+import { module_pcDto } from './dto/response/module_kc.dto';
+import { module_pcEntity } from './entity/module_kc.entity';
+
+@Injectable()
+export class module_pcMapping extends AutomapperProfile {
+  constructor(@InjectMapper() mapper: Mapper) {
+    super(mapper);
+  }
+
+  override get profile() {
+    return (mapper: Mapper) => {
+      const baseMapper = createMap(
+        mapper,
+        module_pcEntity,
+        module_pcDto,
+        forMember(
+          destination => destination.id,
+          mapFrom(source => source.id),
+        ),
+      );
+    };
+  }
+}

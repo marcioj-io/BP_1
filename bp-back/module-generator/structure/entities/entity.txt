@@ -1,0 +1,6 @@
+import { $Enums, module_pc } from '@prisma/client';
+import { BaseEntity } from 'src/modules/base/base.entity';
+
+// TODO-GENERATOR: IMPLEMENT THE INTERFACE
+// TODO-GENERATOR: PUT THE @ApiProperty() in each property
+export class module_pcEntity extends BaseEntity implements module_pc {}

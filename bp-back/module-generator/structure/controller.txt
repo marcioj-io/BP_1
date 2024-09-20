@@ -1,0 +1,202 @@
+import { Controller } from '@nestjs/common';
+import {
+  Body,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  Res,
+  ParseIntPipe,
+  HttpCode,
+  Request,
+  HttpStatus,
+} from '@nestjs/common';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { AssignmentsEnum } from '@prisma/client';
+import { Response } from 'express';
+import { Assignments } from 'src/auth/decorators/assignments.decorator';
+import { AuthenticatedUser } from 'src/auth/decorators/current-user.decorator';
+import { RequestModel } from 'src/auth/models/Request';
+import { UserPayload } from 'src/auth/models/UserPayload';
+import { DefaultFilter } from 'src/filters/DefaultFilter';
+import { AssignmentPermission } from 'src/utils/constants';
+import { getLanguage } from 'src/utils/get-ip-address';
+import {
+  ApiExceptionResponse,
+  ApiOkResponsePaginated,
+} from 'src/utils/swagger-schemas/SwaggerSchema';
+
+import { BaseController } from '../base/base.controller';
+import { module_pcService } from './module_kc.service';
+import { module_pcCreateDto } from './dto/request/module_kc.create.dto';
+import { module_pcUpdateDto } from './dto/request/module_kc.update.dto';
+import { module_pcPaginationResponse } from './dto/response/module_kc.pagination.response';
+import { module_pcEntity } from './entity/module_kc.entity';
+import { module_pcTypeMap } from './entity/module_kc.type.map';
+
+@Controller('module_url')
+@ApiTags('module_pc')
+export class module_pcController extends BaseController<
+  module_pcTypeMap,
+  module_pcCreateDto,
+  module_pcUpdateDto
+> {
+  constructor(protected readonly service: module_pcService) {
+    super(service);
+  }
+
+  @ApiOperation({ summary: 'Get filtered module_pc' })
+  @ApiOkResponsePaginated(module_pcPaginationResponse)
+  @ApiExceptionResponse()
+  @Assignments({
+    assignments: [AssignmentsEnum.module_uc],
+    permissions: [AssignmentPermission.READ],
+  })
+  @Get()
+  async getFilteredAsync(
+    @AuthenticatedUser() currentUser: UserPayload,
+    @Res() response: Response,
+    @Query() filter: DefaultFilter<module_pcTypeMap>,
+    @Request() request: RequestModel,
+  ) {
+    const filteredData = await this.service.findFilteredAsync(
+      filter,
+      currentUser,
+      getLanguage(request.headers['accept-language']),
+    );
+
+    return response.status(HttpStatus.OK).json(filteredData);
+  }
+
+  @ApiOperation({ summary: 'Get one module_pc' })
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: module_pcEntity,
+  })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    required: true,
+  })
+  @ApiExceptionResponse()
+  @Assignments({
+    assignments: [AssignmentsEnum.module_uc],
+    permissions: [AssignmentPermission.READ],
+  })
+  @Get('/:id')
+  protected async findByIdAsync(
+    @AuthenticatedUser() currentUser: UserPayload,
+    @Res() response: Response,
+    @Param('id') id: string,
+    @Request() request: RequestModel,
+  ) {
+    const data = await this.service.findByIdAsync(
+      id,
+      currentUser,
+      getLanguage(request.headers['accept-language']),
+    );
+
+    return response.status(HttpStatus.OK).json(data);
+  }
+
+  @ApiOperation({ summary: 'Create module_pc' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+  })
+  @ApiBody({ type: module_pcCreateDto })
+  @ApiExceptionResponse()
+  @Assignments({
+    assignments: [AssignmentsEnum.module_uc],
+    permissions: [AssignmentPermission.CREATE],
+  })
+  @Post()
+  protected async createAsync(
+    @AuthenticatedUser() currentUser: UserPayload,
+    @Res() response: Response,
+    @Body() dto: module_pcCreateDto,
+    @Request() request: RequestModel,
+  ) {
+    const data = await this.service.createAsync(
+      dto,
+      currentUser,
+      getLanguage(request.headers['accept-language']),
+    );
+
+    return response.status(HttpStatus.CREATED).json(data.id);
+  }
+
+  @ApiOperation({ summary: 'Update module_pc' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiBody({ type: module_pcUpdateDto })
+  @ApiExceptionResponse()
+  @Assignments({
+    assignments: [AssignmentsEnum.module_uc],
+    permissions: [AssignmentPermission.UPDATE],
+  })
+  @Put('/:id')
+  protected async updateAsync(
+    @AuthenticatedUser() currentUser: UserPayload,
+    @Res() response: Response,
+    @Param('id') id: string,
+    @Body() dto: module_pcUpdateDto,
+    @Request() request: RequestModel,
+  ) {
+    await this.service.updateAsync(
+      id,
+      dto,
+      currentUser,
+      getLanguage(request.headers['accept-language']),
+    );
+
+    return response.status(HttpStatus.OK).json(id);
+  }
+
+  @ApiOperation({ summary: 'Delete module_pc' })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    required: true,
+  })
+  @ApiQuery({
+    name: 'version',
+    type: Number,
+    required: true,
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiExceptionResponse()
+  @Assignments({
+    assignments: [AssignmentsEnum.module_uc],
+    permissions: [AssignmentPermission.DELETE],
+  })
+  @Delete('/:id')
+  protected async deleteAsync(
+    @AuthenticatedUser() currentUser: UserPayload,
+    @Res() response: Response,
+    @Param('id') id: string,
+    @Query('version', ParseIntPipe) version: number,
+    @Request() request: RequestModel,
+  ) {
+    await this.service.deleteAsync(
+      id,
+      version,
+      currentUser,
+      getLanguage(request.headers['accept-language']),
+    );
+
+    return response.status(HttpStatus.OK).json(id);
+  }
+}

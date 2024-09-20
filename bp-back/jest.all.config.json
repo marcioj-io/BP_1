@@ -1,0 +1,17 @@
+{
+  "verbose": false,
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "testEnvironment": "node",
+  "testMatch": ["**/*.(spec|test).ts"],
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "collectCoverage": false,
+  "coverageDirectory": "<rootDir>/coverage",
+  "collectCoverageFrom": ["<rootDir>/src/**/*.{js,ts}"],
+  "moduleNameMapper": {
+    "src/(.*)$": "<rootDir>/src/$1"
+  },
+  "transformIgnorePatterns": ["<rootDir>/node_modules/"],
+  "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"]
+}

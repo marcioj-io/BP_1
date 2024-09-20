@@ -1,0 +1,155 @@
+@import '@fontsource/inter';
+@import '@fontsource/inter/500';
+@import '@fontsource/inter/600';
+@import '@fontsource/inter/700';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
+
+    --brand-primary: 218 95% 15%;
+    --brand-secondary: 221 44% 42%;
+    --brand-tertiary: 220 34% 52%;
+    --brand-highlight: 219 36% 89%;
+
+    --neutral-0: 0 0% 100%;
+    --neutral-50: 0 0% 91%;
+    --neutral-100: 0 0% 83%;
+    --neutral-400: 0 0% 61%;
+    --neutral-600: 0 0% 44%;
+    --neutral-700: 0 0% 40%;
+    --neutral-800: 240 7% 29%;
+    --neutral-900: 0 0% 19%;
+
+    --danger: 0 72% 51%;
+    --danger-dark: 0 81% 42%;
+
+    --success: 91 58% 45%;
+    --success-light: 92 52% 94%;
+
+    --warning: 43 85% 54%;
+
+    --text: 229 15% 55%;
+
+    --action: 29 100% 48%;
+    --action-light: 29 100% 91%;
+
+    --background-200: 204 38% 96%;
+    --background-300: 210 40% 96%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+
+    --brand-primary: 218 95% 15%; /* Mantido */
+    --brand-secondary: 221 44% 25%; /* Secundária mais escura */
+    --brand-tertiary: 220 34% 30%; /* Terciária mais escura */
+    --brand-highlight: 219 36% 45%; /* Highlight mais escuro */
+
+    --neutral-0: 0 0% 19%; /* Mais escuro */
+    --neutral-50: 0 0% 18%;
+    --neutral-100: 0 0% 17%;
+    --neutral-400: 0 0% 15%;
+    --neutral-600: 0 0% 13%;
+    --neutral-700: 0 0% 12%;
+    --neutral-800: 240 7% 10%;
+    --neutral-900: 0 0% 8%;
+
+    --danger: 0 72% 30%; /* Danger mais escuro */
+    --danger-dark: 0 81% 20%; /* Danger Dark mais escuro */
+
+    --success: 91 58% 25%; /* Success mais escuro */
+    --success-light: 92 52% 30%; /* Success Light mais escuro */
+
+    --text: 229 15% 75%; /* Texto mais claro para contraste */
+
+    --action: 29 100% 25%; /* Action mais escuro */
+    --action-light: 29 100% 30%; /* Action Light mais escuro */
+
+    --background-200: 204 38% 20%; /* Background-200 mais escuro */
+
+    --white: 0 0% 10%;
+  }
+
+  input[type='checkbox'] {
+    /* Adicione seus estilos aqui */
+    appearance: none;
+    border: 1px solid var(--border);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border-radius: 4.5px;
+    outline: none;
+    transition: background 0.3s;
+
+    &:checked {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: ##3b5999;
+      border-color: var(--action);
+    }
+
+    &:checked:after {
+      content: '';
+      display: block;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      margin: 5px;
+    }
+  }
+
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      /* @apply bg-background text-foreground; */
+      font-family: 'Inter', sans-serif;
+    }
+  }
+}

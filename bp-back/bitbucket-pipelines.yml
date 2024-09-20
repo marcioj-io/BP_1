@@ -1,0 +1,112 @@
+definitions:
+  services:
+    docker:
+      memory: 4096
+  steps:
+    - step: &Build
+        name: "Build"
+        image: node:20
+        script:
+          - npm install
+          - npm install --save-dev @nestjs/cli
+          - npm run build
+          - ls -la
+          - pwd
+        artifacts:
+          - dist/**
+          - package.json
+          - prisma/**
+
+    - step: &PushECR
+        name: "Build and Push Docker Image"
+        image: atlassian/pipelines-awscli
+        services:
+          - docker
+        size: 2x
+        script:
+          - export AMBIENTE=$(cat AMBIENTE.env)
+          - echo $AMBIENTE
+          - export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+          - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+          - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+          - export IMAGE_TAG=$BITBUCKET_COMMIT
+          - export FULL_IMAGE_NAME=$ECR_REGISTRY/$REPOSITORY_NAME-$AMBIENTE:$IMAGE_TAG
+          - export LATEST_IMAGE_NAME=$ECR_REGISTRY/$REPOSITORY_NAME-$AMBIENTE:latest
+          - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+          - docker build -t $FULL_IMAGE_NAME .
+          - docker push $FULL_IMAGE_NAME
+          - docker tag $FULL_IMAGE_NAME $LATEST_IMAGE_NAME
+          - docker push $LATEST_IMAGE_NAME
+          - echo "Image published $FULL_IMAGE_NAME"
+          - echo "Latest image published $LATEST_IMAGE_NAME"
+
+    - step: &RegisterTaskDefinition
+        name: "Register Task Definition and Update Service"
+        image: atlassian/pipelines-awscli
+        script: 
+          - export AMBIENTE=$(cat AMBIENTE.env)
+          - echo $AMBIENTE
+          - apt-get update && apt-get install -y jq 
+          - export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+          - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+          - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+          - export IMAGE_TAG=$BITBUCKET_COMMIT
+          - export FULL_IMAGE_NAME=$ECR_REGISTRY/$REPOSITORY_NAME-$AMBIENTE:$IMAGE_TAG
+          - export CONFIG_FILE=taskDefinition.json
+          - chmod +x replace-vars.sh
+          - chmod +x replace-vars.dev.sh
+          - if [ "$AMBIENTE" = "dev" ]; then ./replace-vars.dev.sh; else ./replace-vars.sh; fi
+          - cat $CONFIG_FILE
+          - export TASK_DEF_ARN=$(aws ecs register-task-definition --cli-input-json file://$CONFIG_FILE | jq -r '.taskDefinition.taskDefinitionArn')
+          - echo "Task Definition ARN $TASK_DEF_ARN"
+          - aws ecs update-service --cluster $CLUSTER-$AMBIENTE --service $ECS_SERVICE-$AMBIENTE --task-definition $TASK_DEF_ARN --force-new-deployment
+
+    - step: &UpdateLightsail
+        name: "Register Task Definition and Update Service"
+        image: atlassian/pipelines-awscli
+        script: 
+          - export AMBIENTE=$(cat AMBIENTE.env)
+          - echo $AMBIENTE
+          - apt-get update && apt-get install -y jq 
+          - export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+          - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+          - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+          - export FULL_IMAGE_NAME=$ECR_REGISTRY/$REPOSITORY_NAME-$AMBIENTE:latest
+          - export CONFIG_FILE=update-service.json
+          - chmod +x replace-vars.sh
+          - chmod +x replace-vars.dev.sh
+          - if [ "$AMBIENTE" = "dev" ]; then ./replace-vars.dev.sh; else ./replace-vars.sh; fi
+          - cat $CONFIG_FILE
+          - aws lightsail create-container-service-deployment --cli-input-json file://update-service.json
+          
+pipelines:
+  branches:
+    main:
+      - step:
+          name: Setup Env
+          script:
+            - echo "prod" > AMBIENTE.env
+          artifacts:
+            - AMBIENTE.env  
+
+      - step: *Build
+          
+      - step: *PushECR
+
+      - step: *RegisterTaskDefinition
+
+    develop:
+      - step:
+          name: Setup Env
+          script:
+            - echo "dev" > AMBIENTE.env
+          artifacts:
+            - AMBIENTE.env  
+
+      - step: *Build
+          
+      - step: *PushECR
+
+      - step: *UpdateLightsail
+
+      

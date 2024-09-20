@@ -1,0 +1,8 @@
+.git
+.npmrc
+.yarnrc
+dist
+node_modules
+coverage
+scripts
+styleguide

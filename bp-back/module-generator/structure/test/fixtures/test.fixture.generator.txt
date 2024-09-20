@@ -1,0 +1,46 @@
+import { faker } from '@faker-js/faker';
+import { CrudType } from 'src/modules/base/interfaces/ICrudTypeMap';
+import { module_pcCreateDto } from 'src/modules/module_kc/dto/request/module_kc.create.dto';
+import { module_pcUpdateDto } from 'src/modules/module_kc/dto/request/module_kc.update.dto';
+import { module_pcTypeMap } from 'src/modules/module_kc/entity/module_kc.type.map';
+
+// TODO-GENERATOR: IMPLEMENT THE INTERFACE AND THE MOCK VALUES
+/**
+ * Generates a create input object for database
+ *
+ * @returns {module_pcTypeMap[CrudType.CREATE_UNCHECKED]} The generated create input object.
+ */
+export const generateCreateInput = (): module_pcTypeMap[CrudType.CREATE_UNCHECKED] => {
+  const createInput: module_pcCreateDto = {};
+
+  return createInput;
+};
+
+// TODO-GENERATOR: IMPLEMENT THE MOCK VALUES
+/**
+ * Generates an update input object for database
+ *
+ * @returns {module_pcTypeMap[CrudType.UPDATE]} The generated update input object.
+ */
+export const generateUpdateInput = (): module_pcTypeMap[CrudType.UPDATE] => {
+  const updateInput: module_pcUpdateDto = {
+    version: 1,
+  };
+
+  return updateInput;
+};
+
+/**
+ * Generates a partial entity and removes specified fields.
+ *
+ * @param {string[]} removeFields - An array of field names to remove from the entity.
+ * @returns The generated partial entity.
+ */
+export const generatePartialEntity = (removeFields: string[] = []) => {
+  const entity = generateCreateInput();
+  removeFields.forEach(field => {
+    delete entity[field];
+  });
+
+  return entity;
+};

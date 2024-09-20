@@ -1,0 +1,94 @@
+{
+  "users": [
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "IT"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "IT"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "IT"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    },
+    {
+      "id": "123245",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "sector": "Finance"
+    }
+  ]
+}

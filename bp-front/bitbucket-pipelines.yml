@@ -1,0 +1,72 @@
+definitions:
+  steps:
+    - step: &build-frontend
+        name: "Build Frontend"
+        image: node:20
+        caches:
+          - node
+        script:
+          - export APIURL=$(cat APIURL.env)
+          - echo $APIURL
+          - npm install
+          - export VITE_PRIMARY=$VITE_PRIMARY
+          - export VITE_PRIMARYDARK=$VITE_PRIMARYDARK
+          - export VITE_SECONDARY=$VITE_SECONDARY
+          - export VITE_SECONDARYDARK=$VITE_SECONDARYDARK
+          - export VITE_TERNARY=$VITE_TERNARY
+          - export VITE_TERNARYDARK=$VITE_TERNARYDARK
+          - export VITE_WHITE=$VITE_WHITE
+          - export VITE_API_URL=$APIURL
+          - export VITE_BRAND_LOGO=$VITE_BRAND_LOGO
+          - export VITE_SIDEBAR_LOGO=$VITE_SIDEBAR_LOGO
+          - npm run build
+        artifacts:
+          - dist/**
+
+    - step: &deploy-frontend
+        name: "Deploy Frontend"
+        image: atlassian/pipelines-awscli
+        script:
+          - export AMBIENTE=$(cat AMBIENTE.env)
+          - echo $AMBIENTE
+          - export CLOUDFRONT=$(cat CLOUDFRONT.env)
+          - echo $CLOUDFRONT
+          - export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+          - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+          - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+          - aws s3 sync ./dist/ s3://$AWS_BUCKET_NAME-$AMBIENTE
+          - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT --paths "/*"
+
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Setup Env
+          script:
+            - echo "prod" > AMBIENTE.env
+            - echo $VITE_API_URL_PROD > APIURL.env
+            - echo $AWS_CLOUDFRONT_DISTRIBUTION_ID_PROD > CLOUDFRONT.env
+          artifacts:
+            - AMBIENTE.env
+            - APIURL.env
+            - CLOUDFRONT.env
+      - step: *build-frontend
+      - step: *deploy-frontend
+    develop:
+      - step:
+          name: Setup Env
+          image: atlassian/pipelines-awscli
+          script:
+            - echo "dev" > AMBIENTE.env
+            - echo $VITE_API_URL_DEV > APIURL.env
+            - echo $AWS_CLOUDFRONT_DISTRIBUTION_ID_DEV > CLOUDFRONT.env
+
+          artifacts:
+            - AMBIENTE.env
+            - APIURL.env
+            - CLOUDFRONT.env
+
+      - step: *build-frontend
+
+      - step: *deploy-frontend
+         

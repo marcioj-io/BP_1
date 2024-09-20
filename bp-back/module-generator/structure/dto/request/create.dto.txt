@@ -1,0 +1,6 @@
+import { $Enums, Prisma } from '@prisma/client';
+
+// TODO-GENERATOR: INSERT THE DTO CREATE HERE
+// TODO-GENERATOR: PUT THE @ApiProperty() in each property
+// TODO-GENERATOR: PUT THE @IsNotEmpty() in each property or @IsOptional() to be recognized in request
+export class module_pcCreateDto implements Prisma.module_pcUncheckedCreateInput { }

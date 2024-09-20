@@ -1,0 +1,14 @@
+import { PrismaModule } from '../../database/prisma/prisma.module';
+import { module_pcController } from './module_kc.controller';
+import { module_pcMapping } from './module_kc.mapping';
+import { module_pcRepository } from './module_kc.repository';
+import { module_pcService } from './module_kc.service';
+import { Module } from '@nestjs/common';
+
+@Module({
+	controllers: [module_pcController],
+	providers: [module_pcService, module_pcMapping, module_pcRepository],
+	imports: [PrismaModule],
+	exports: [module_pcService, module_pcRepository],
+})
+export class module_pcModule {}
