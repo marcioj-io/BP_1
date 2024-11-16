@@ -26,7 +26,7 @@ export class UserUpdateDto {
   version: number;
 
   @ApiPropertyOptional({
-    example: 'Breno Silva',
+    example: 'John  Silva',
     description: 'Nome do usuário',
   })
   @IsOptional()

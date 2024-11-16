@@ -32,7 +32,7 @@ export class UserCreateDto {
   email: string;
 
   @ApiProperty({
-    example: 'Breno Silva',
+    example: 'John  Silva',
     description: 'Nome do usuário',
   })
   @IsNotEmpty({ message: 'O campo de nome deve ser preenchido' })

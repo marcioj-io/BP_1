@@ -1,8 +1,8 @@
 {
-  "name": "AGINCO",
+  "name": "",
   "version": "2.0.0",
   "description": "",
-  "author": "Breno Silva",
+  "author": "",
   "private": true,
   "license": "UNLICENSED",
   "prisma": {
